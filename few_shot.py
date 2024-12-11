@@ -7,6 +7,7 @@ class FewShotPosts:
         self.df = None
         self.unique_tags = None
         self.load_posts(file_path)
+        print(f'self.unique_tags {self.unique_tags}')
 
     def load_posts(self, file_path):
         with open(file_path, encoding="utf-8") as f:

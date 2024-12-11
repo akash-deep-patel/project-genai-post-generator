@@ -3,6 +3,8 @@ from llm_helper import llm
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.exceptions import OutputParserException
+def remove_surrogates(text):
+    return text.encode('utf-16', 'surrogatepass').decode('utf-16-le', errors='ignore')
 
 
 def process_posts(raw_file_path, processed_file_path=None):
@@ -10,7 +12,7 @@ def process_posts(raw_file_path, processed_file_path=None):
         posts = json.load(file)
         enriched_posts = []
         for post in posts:
-            metadata = extract_metadata(post['text'])
+            metadata = extract_metadata(remove_surrogates(post['text']))
             post_with_metadata = post | metadata
             enriched_posts.append(post_with_metadata)
 
